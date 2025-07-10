@@ -1,4 +1,4 @@
-package com.escuelaing.arsw.pizarraBack.controller;
+package com.escuelaing.arsw.pizarraBack.infrastructure.controller;
 import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
