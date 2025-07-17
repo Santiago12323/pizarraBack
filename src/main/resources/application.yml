@@ -10,3 +10,9 @@ spring:
     mongodb:
       uri: mongodb://admin:admin123@localhost:27017
       database: arsw_security
+
+jwt:
+  signature: L3OaW5Jv7f9qT8U0pD7rYkJ9u3PxMfBcXlZAnKj2hFs=
+  expiration: 3600000  # 1 hora
+  refresh-expiration: 86400000  # 24 horas
+

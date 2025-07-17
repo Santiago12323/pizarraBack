@@ -1,5 +1,6 @@
 package com.escuelaing.arsw.pizarraBack.domain.usecases;
 
+import com.escuelaing.arsw.pizarraBack.config.JwtService;
 import com.escuelaing.arsw.pizarraBack.domain.ports.TicketService;
 import com.escuelaing.arsw.pizarraBack.infrastructure.controller.LoginRequest;
 import com.escuelaing.arsw.pizarraBack.domain.ports.UserService;
@@ -23,13 +24,17 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtService jwtService;
+
     @Override
     public String validateUser(LoginRequest request) {
         User user = repository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         if(passwordEncoder.matches(request.getPassword(), user.getPassword())){
-            String ticket = UUID.randomUUID().toString();
+            String ticket = jwtService.generateToken(user);
             service.storeTicket(ticket, request.getUsername());
             return ticket;
         }
@@ -47,6 +52,11 @@ public class UserServiceImpl implements UserService {
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         return repository.save(user);
+    }
+
+    @Override
+    public User findByName(String id){
+        return repository.findById(id).orElseThrow(() -> new RuntimeException("no found"));
     }
 }
 
